@@ -7,21 +7,20 @@ import CountryInfo from "./Components/CountryInfo";
 function App() {
   const [userIP, setUserIP] = useState();
   const [userLocation, setUserLocation] = useState();
+  const [error, setError] = useState();
 
   useEffect(() => {
-    const fetchIP = async () => {
-      await axios
-        .get(
-          `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.REACT_APP_IPIFY_KEY}`
-        )
-        .then((response) => {
-          setUserIP(response.data.ip);
-          setUserLocation(response.data.location);
-        })
-        .catch((error) => console.log(error));
-    };
-    fetchIP();
+    axios
+      .get(
+        `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.REACT_APP_IPIFY_KEY}`
+      )
+      .then((response) => {
+        setUserIP(response.data.ip);
+        setUserLocation(response.data.location);
+      })
+      .catch((error) => setError(error));
   }, []);
+
   return (
     <div className="container-fluid App my-3">
       <header>
@@ -37,6 +36,12 @@ function App() {
           </>
         ) : (
           "Loading..."
+        )}
+        {error && (
+          <h2>
+            Oh No! Something went wrong! This is the error:{" "}
+            {error.message}
+          </h2>
         )}
       </main>
     </div>

@@ -3,16 +3,15 @@ import axios from "axios";
 
 const CountryInfo = ({ userCountry }) => {
   const [countryInfo, setCountryInfo] = useState();
+  const [error, setError] = useState();
 
   useEffect(() => {
-    const fetchCountryInfo = async () => {
-      await axios
-        .get(`https://restcountries.com/v3.1/alpha/${userCountry}`)
-        .then((response) => setCountryInfo(response.data[0]))
-        .catch((error) => console.log(error));
-    };
-    fetchCountryInfo();
+    axios
+      .get(`https://restcountries.com/v3.1/alpha/${userCountry}`)
+      .then((response) => setCountryInfo(response.data[0]))
+      .catch((error) => setError(error));
   }, [userCountry]);
+
   return (
     <div>
       {countryInfo ? (
@@ -47,6 +46,12 @@ const CountryInfo = ({ userCountry }) => {
         </div>
       ) : (
         "Loading..."
+      )}
+      {error && (
+        <h2>
+          Oh No! Something went wrong! This is the error:{" "}
+          {error.message}
+        </h2>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { Map, Marker } from "pigeon-maps";
 
-const MyMap = ({ userLocation: { lat, lng, ...rest } }) => {
+const MyMap = ({ userLocation: { lat, lng } }) => {
   return (
     <div>
       <Map height={300} defaultCenter={[lat, lng]} defaultZoom={12}>
